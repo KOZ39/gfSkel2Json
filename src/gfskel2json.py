@@ -47,7 +47,7 @@ class BinaryStream:
                     if (b & 0x80):
                         b = ord(self.readByte())
                         result |= (b & 0x7f) << 28
-                        result = -(0xffffffff + 1 - result)
+                        result -= 0xffffffff + 1
         return result
 
     def readIntArray(self):
@@ -186,15 +186,7 @@ def readAnimation():
         for j in range(stream.readInt()):
             timelineType = ord(stream.readByte())
             frameCnt = stream.readInt()
-            if timelineType == 3:
-                timeline = []
-                for frameIdx in range(frameCnt):
-                    timeline.append({})
-                    timeline[frameIdx]['time'] = stream.readFloat()
-                    timeline[frameIdx]['name'] = stream.readString()
-                slotMap['attachment'] = timeline
-                duration = max(duration, timeline[frameCnt-1]['time'])
-            elif timelineType == 4:
+            if timelineType == 4:
                 timeline = []
                 for frameIdx in range(frameCnt):
                     timeline.append({})
@@ -203,6 +195,14 @@ def readAnimation():
                     if frameIdx < frameCnt - 1:
                        readCurve(frameIdx, timeline)
                 slotMap['color'] = timeline
+                duration = max(duration, timeline[frameCnt-1]['time'])
+            elif timelineType == 3:
+                timeline = []
+                for frameIdx in range(frameCnt):
+                    timeline.append({})
+                    timeline[frameIdx]['time'] = stream.readFloat()
+                    timeline[frameIdx]['name'] = stream.readString()
+                slotMap['attachment'] = timeline
                 duration = max(duration, timeline[frameCnt-1]['time'])
         slots[data['slots'][slotIdx]['name']] = slotMap
     animation['slots'] = slots
@@ -375,7 +375,7 @@ def readCurve(frameIdx, timeline):
     if (curve := ord(stream.readByte())) == 1:
         timeline[frameIdx]['curve'] = 'stepped'
     elif curve == 2:
-        timeline[frameIdx]['curve'] = [stream.readFloat(), stream.readFloat(), \
+        timeline[frameIdx]['curve'] = [stream.readFloat(), stream.readFloat(),
                                        stream.readFloat(), stream.readFloat()]
 
 
