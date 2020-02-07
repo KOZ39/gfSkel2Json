@@ -47,7 +47,7 @@ class BinaryStream:
                     if (b & 0x80):
                         b = self.readByte()
                         result |= (b & 0x7f) << 28
-                        result = -(0xffffffff + 1 - result)
+                        result -= 0xffffffff + 1
         return result
 
     def readIntArray(self):
