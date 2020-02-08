@@ -15,8 +15,8 @@ ATTACHMENT_TYPE = (
     'skinnedmesh'
 )
 
-scale = 1
 data = {}
+scale = 1
 
 
 class BinaryStream:
@@ -51,33 +51,33 @@ class BinaryStream:
         return result
 
     def readIntArray(self):
-        array = []
+        arr = []
         for i in range(self.readInt()):
-            array.append(self.readInt())
-        return array
+            arr.append(self.readInt())
+        return arr
 
     def readShort(self):
         return self.unpack('>H', 2)
     
     def readShortArray(self):
-        array = []
+        arr = []
         for i in range(self.readInt()):
-            array.append(self.readShort())
-        return array
+            arr.append(self.readShort())
+        return arr
 
     def readFloat(self):
         return self.unpack('>f', 4)
 
     def readFloatArray(self):
         n = self.readInt()
-        array = []
+        arr = []
         if scale == 1:
             for i in range(n):
-                array.append(self.readFloat())
+                arr.append(self.readFloat())
         else:
             for i in range(n):
-                array.append(self.readFloat() * scale)
-        return array
+                arr.append(self.readFloat() * scale)
+        return arr
 
     def readString(self):
         length = self.readInt()
