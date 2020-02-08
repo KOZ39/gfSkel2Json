@@ -475,5 +475,5 @@ data = json.dumps(data, indent=2)
 data = re.sub(r'([\d]+)\.0([^\d]),?|-(0).0([^\d]+)', r'\1\2\3\4', data)
 data = re.sub(r'([\d]+\.[\d]+e-[\d]+)', repl, data)
 
-with open('Kalina.json', 'w') as f:
+with open('Kalina.json', 'w', encoding='utf-8') as f:
     f.write(data)
