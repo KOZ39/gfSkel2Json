@@ -15,7 +15,6 @@ ATTACHMENT_TYPE = (
     'skinnedmesh'
 )
 
-data = {}
 scale = 1
 
 
@@ -385,6 +384,7 @@ def repl(mo):
 
 with open('Kalina.skel.txt', 'rb') as f:
     stream = BinaryStream(f)
+    data = {}
 
     # skeleton
     data['skeleton'] = {}
