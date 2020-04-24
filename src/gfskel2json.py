@@ -50,32 +50,21 @@ class BinaryStream:
         return result
 
     def readIntArray(self):
-        arr = []
-        for i in range(self.readInt()):
-            arr.append(self.readInt())
+        arr = [self.readInt() for i in range(self.readInt())]
         return arr
 
     def readShort(self):
         return self.unpack('>H', 2)
     
     def readShortArray(self):
-        arr = []
-        for i in range(self.readInt()):
-            arr.append(self.readShort())
+        arr = [self.readShort() for i in range(self.readInt())]
         return arr
 
     def readFloat(self):
         return self.unpack('>f', 4)
 
     def readFloatArray(self):
-        n = self.readInt()
-        arr = []
-        if scale == 1:
-            for i in range(n):
-                arr.append(self.readFloat())
-        else:
-            for i in range(n):
-                arr.append(self.readFloat() * scale)
+        arr = [self.readFloat() * scale for i in range(self.readInt())]
         return arr
 
     def readString(self):
